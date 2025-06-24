@@ -17,7 +17,7 @@ def webhook():
 
     # Extract parameters from Dialogflow CX request
     params = req.get('sessionInfo', {}).get('parameters', {})
-    user_id = params.get('ID_number')
+    user_id = params.get('id_number')
     user_name = params.get('name')
 
     logging.debug(f"Extracted parameters - ID_number: {user_id}, name: {user_name}")
