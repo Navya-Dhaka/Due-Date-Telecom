@@ -30,22 +30,22 @@ def webhook():
         amount_due = user_data['Amount'].values[0]
         why_negative = user_data['Why Negative'].values[0]
 
-       
         # Build the message conditionally
-        message = f"Your due date is {due_date} and the amount due is {amount_due}."
-        if pd.notna(why_negative) and str(why_negative).strip():
-            message += f" The reason for your negative balance is: {why_negative}."
+        message = f"Your due date is {due_date} and the amount due is {amount_due}."
+        if pd.notna(why_negative) and str(why_negative).strip():
+            message += f" The reason for your negative balance is: {why_negative}."
+
     
-        response = {
-            "fulfillment_response": {
-                "messages": [
-                    {
-                        "text": {
-                            "text": [message]
-                        }
-                    }
-                ]
-            },
+        response = {
+            "fulfillment_response": {
+                "messages": [
+                    {
+                        "text": {
+                            "text": [message]
+                        }
+                    }
+                ]
+            },
 
             "session_info": {
                 "parameters": {
