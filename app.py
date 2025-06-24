@@ -43,7 +43,7 @@ def webhook():
         return jsonify({
             "fulfillment_response": {
                 "messages": [
-                    {"text": {"text": ["User authenticated successfully."]}}
+                    {"text": {"text": ["User authenticated successfully. To check your due date, please reply yes."]}}
                 ]
             },
             "session_info": {
@@ -60,7 +60,7 @@ def webhook():
         return jsonify({
             "fulfillment_response": {
                 "messages": [
-                    {"text": {"text": [f"Your due date is {due_date}."]}}
+                    {"text": {"text": [f"Your due date is {due_date}. To check the due amount, please reply yes"]}}
                 ]
             },
             "session_info": {
@@ -71,19 +71,25 @@ def webhook():
         })
 
     elif tag == 'get_amount_due':
-        amount_due = user_data['Amount'].values[0]
-        return jsonify({
-            "fulfillment_response": {
-                "messages": [
-                    {"text": {"text": [f"The amount you have to pay is {amount_due} dollars."]}}
-                ]
-            },
-            "session_info": {
-                "parameters": {
-                    "amount_due": float(amount_due)
-                }
+    amount_due = user_data['Amount'].values[0]
+    message = f"The amount you have to pay is {amount_due}."
+
+    if amount_due < 0:
+        message += "To know why your balance is negative, please reply yes."
+
+    return jsonify({
+        "fulfillment_response": {
+            "messages": [
+                {"text": {"text": [message]}}
+            ]
+        },
+        "session_info": {
+            "parameters": {
+                "amount_due": float(amount_due)
             }
-        })
+        }
+    })
+
 
     elif tag == 'get_negative_reason':
         amount_due = user_data['Amount'].values[0]
