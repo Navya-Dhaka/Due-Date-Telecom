@@ -128,6 +128,7 @@ def webhook():
             })
     
         elif tag == 'get_plan_type':
+            amount_due = user_data['Amount'].values[0]
             plan_type = user_data['Plan'].values[0]
             message = f"Your plan type is {plan_type}. "
             if amount_due != 0:
