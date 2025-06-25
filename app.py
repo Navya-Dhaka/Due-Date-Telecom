@@ -61,12 +61,12 @@ def webhook():
         elif tag == 'get_due_date':
             due_date = user_data['Due Date'].values[0]
             today = datetime.today().date()
-            if due_date < today:
-                message = "Your due date has passed."
-            elif due_date == today:
-                message = "Your due date is today."
-            else:
-                message = "Your due date is in the future."
+            if due_date < today:
+                message = "Your due date has passed."
+            elif due_date == today:
+                message = "Your due date is today."
+            else:
+                message = "Your due date is in the future."
 
             message += f"It is {due_date}. To check the due amount, please reply yes."
 
