@@ -46,7 +46,7 @@ def webhook():
             return jsonify({
                 "fulfillment_response": {
                     "messages": [
-                        {"text": {"text": ["User authenticated successfully. To check your due date, please reply yes."]}}
+                        {"text": {"text": ["User authenticated successfully. "]}}
                     ]
                 },
                 "session_info": {
@@ -69,7 +69,7 @@ def webhook():
             else:
                 message = "Your due date is in the future."
 
-            message += f" It is {due_date}. To check the due amount, please reply yes."
+            message += f" It is {due_date}. "
 
             return jsonify({
                 "fulfillment_response": {
@@ -90,8 +90,8 @@ def webhook():
     
             if amount_due < 0:
                 message += "To know why your balance is negative, please reply yes."
-            else:
-                message += "Please reply yes to continue."
+            # else:
+            #     message += "Please reply yes to continue."
         
             return jsonify({
                 "fulfillment_response": {
@@ -111,9 +111,9 @@ def webhook():
             amount_due = user_data['Amount'].values[0]
             why_negative = user_data['Why Negative'].values[0]
             if amount_due < 0 and pd.notna(why_negative) and str(why_negative).strip():
-                message = f"The reason for your negative balance is: {why_negative}. To know your plan type, please reply yes."
-            else:
-                message = "To know your plan type, please reply yes."
+                message = f"The reason for your negative balance is: {why_negative}. "
+            # else:
+            #     message = "To know your plan type, please reply yes."
             return jsonify({
                 "fulfillment_response": {
                     "messages": [
@@ -131,10 +131,10 @@ def webhook():
             amount_due = user_data['Amount'].values[0]
             plan_type = user_data['Plan'].values[0]
             message = f"Your plan type is {plan_type}. "
-            if amount_due != 0:
-                message += "If you would like to make a payment, please reply pay."
-            else:
-                message += "If you have any further questions, please reply yes."
+            # if amount_due != 0:
+            #     message += "If you would like to make a payment, please reply pay."
+            # else:
+            #     message += "If you have any further questions, please reply yes."
             return jsonify({
                 "fulfillment_response": {
                     "messages": [
