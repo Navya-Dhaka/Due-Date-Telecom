@@ -63,13 +63,13 @@ def webhook():
             due_date = datetime.strptime(due_date_str, "%m-%d-%Y").date()
             today = datetime.today().date()
             if due_date < today:
-                message = "Your due date has passed."
+                message = "Your due date has passed. Along with your due amount, you have to pay extra 10 dollars as late fees."
             elif due_date == today:
                 message = "Your due date is today."
             else:
                 message = "Your due date is in the future."
 
-            message += f"It is {due_date}. To check the due amount, please reply yes."
+            message += f" It is {due_date}. To check the due amount, please reply yes."
 
             return jsonify({
                 "fulfillment_response": {
@@ -129,10 +129,15 @@ def webhook():
     
         elif tag == 'get_plan_type':
             plan_type = user_data['Plan'].values[0]
+            message = f"Your plan type is {plan_type}. "
+            if amount_due != 0:
+                message += "If you would like to make a payment, please reply pay."
+            else:
+                message += "If you have any further questions, please reply yes."
             return jsonify({
                 "fulfillment_response": {
                     "messages": [
-                        {"text": {"text": [f"Your plan type is {plan_type}. Do you have any further questions?"]}}
+                        {"text": {"text": [message]}}
                     ]
                 },
                 "session_info": {
