@@ -38,93 +38,94 @@ def webhook():
             }
         })
 
-    # User is authenticated
-    if tag == 'authenticate_user':
-        return jsonify({
-            "fulfillment_response": {
-                "messages": [
-                    {"text": {"text": ["User authenticated successfully. To check your due date, please reply yes."]}}
-                ]
-            },
-            "session_info": {
-                "parameters": {
-                    "user_found": True,
-                    "received_ID_number": user_id,
-                    "received_name": user_name
+    else:
+        # User is authenticated
+        if tag == 'authenticate_user':
+            return jsonify({
+                "fulfillment_response": {
+                    "messages": [
+                        {"text": {"text": ["User authenticated successfully. To check your due date, please reply yes."]}}
+                    ]
+                },
+                "session_info": {
+                    "parameters": {
+                        "user_found": True,
+                        "received_ID_number": user_id,
+                        "received_name": user_name
+                    }
                 }
-            }
-        })
-
-    elif tag == 'get_due_date':
-        due_date = user_data['Due Date'].values[0]
-        return jsonify({
-            "fulfillment_response": {
-                "messages": [
-                    {"text": {"text": [f"Your due date is {due_date}. To check the due amount, please reply yes"]}}
-                ]
-            },
-            "session_info": {
-                "parameters": {
-                    "due_date": str(due_date)
-                }
-            }
-        })
-
-    elif tag == 'get_amount_due':
-        amount_due = user_data['Amount'].values[0]
-        message = f"The amount you have to pay is {amount_due}."
-
-        if amount_due < 0:
-            message += "To know why your balance is negative, please reply yes."
+            })
     
-        return jsonify({
-            "fulfillment_response": {
-                "messages": [
-                    {"text": {"text": [message]}}
-                ]
-            },
-            "session_info": {
-                "parameters": {
-                    "amount_due": float(amount_due)
+        elif tag == 'get_due_date':
+            due_date = user_data['Due Date'].values[0]
+            return jsonify({
+                "fulfillment_response": {
+                    "messages": [
+                        {"text": {"text": [f"Your due date is {due_date}. To check the due amount, please reply yes"]}}
+                    ]
+                },
+                "session_info": {
+                    "parameters": {
+                        "due_date": str(due_date)
+                    }
                 }
-            }
-        })
-
-
-    elif tag == 'get_negative_reason':
-        amount_due = user_data['Amount'].values[0]
-        why_negative = user_data['Why Negative'].values[0]
-        if amount_due < 0 and pd.notna(why_negative) and str(why_negative).strip():
-            message = f"The reason for your negative balance is: {why_negative}."
-        else:
-            message = "You do not have a negative balance."
-        return jsonify({
-            "fulfillment_response": {
-                "messages": [
-                    {"text": {"text": [message]}}
-                ]
-            },
-            "session_info": {
-                "parameters": {
-                    "why_negative": why_negative
+            })
+    
+        elif tag == 'get_amount_due':
+            amount_due = user_data['Amount'].values[0]
+            message = f"The amount you have to pay is {amount_due}."
+    
+            if amount_due < 0:
+                message += "To know why your balance is negative, please reply yes."
+        
+            return jsonify({
+                "fulfillment_response": {
+                    "messages": [
+                        {"text": {"text": [message]}}
+                    ]
+                },
+                "session_info": {
+                    "parameters": {
+                        "amount_due": float(amount_due)
+                    }
                 }
-            }
-        })
-
-    elif tag == 'get_plan_type':
-        plan_type = user_data['Plan'].values[0]
-        return jsonify({
-            "fulfillment_response": {
-                "messages": [
-                    {"text": {"text": [f"Your plan type is {plan_type}."]}}
-                ]
-            },
-            "session_info": {
-                "parameters": {
-                    "plan_type": plan_type
+            })
+    
+    
+        elif tag == 'get_negative_reason':
+            amount_due = user_data['Amount'].values[0]
+            why_negative = user_data['Why Negative'].values[0]
+            if amount_due < 0 and pd.notna(why_negative) and str(why_negative).strip():
+                message = f"The reason for your negative balance is: {why_negative}."
+            else:
+                message = "You do not have a negative balance."
+            return jsonify({
+                "fulfillment_response": {
+                    "messages": [
+                        {"text": {"text": [message]}}
+                    ]
+                },
+                "session_info": {
+                    "parameters": {
+                        "why_negative": why_negative
+                    }
                 }
-            }
-        })
+            })
+    
+        elif tag == 'get_plan_type':
+            plan_type = user_data['Plan'].values[0]
+            return jsonify({
+                "fulfillment_response": {
+                    "messages": [
+                        {"text": {"text": [f"Your plan type is {plan_type}."]}}
+                    ]
+                },
+                "session_info": {
+                    "parameters": {
+                        "plan_type": plan_type
+                    }
+                }
+            })
 
     # else:
     #     return jsonify({
