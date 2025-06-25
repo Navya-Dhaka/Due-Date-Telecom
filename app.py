@@ -1,6 +1,8 @@
 from flask import Flask, request, jsonify
 import pandas as pd
 import logging
+from datetime import datetime
+
 
 app = Flask(__name__)
 logging.basicConfig(level=logging.DEBUG)
@@ -58,10 +60,20 @@ def webhook():
     
         elif tag == 'get_due_date':
             due_date = user_data['Due Date'].values[0]
+            today = datetime.today().date()
+            if due_date < today:
+                message = "Your due date has passed."
+            elif due_date == today:
+                message = "Your due date is today."
+            else:
+                message = "Your due date is in the future."
+
+            message += f"It is {due_date}. To check the due amount, please reply yes."
+
             return jsonify({
                 "fulfillment_response": {
                     "messages": [
-                        {"text": {"text": [f"Your due date is {due_date}. To check the due amount, please reply yes."]}}
+                        {"text": {"text": [message]}}
                     ]
                 },
                 "session_info": {
@@ -77,6 +89,8 @@ def webhook():
     
             if amount_due < 0:
                 message += "To know why your balance is negative, please reply yes."
+            else:
+                message += "Please reply yes to continue."
         
             return jsonify({
                 "fulfillment_response": {
@@ -98,7 +112,7 @@ def webhook():
             if amount_due < 0 and pd.notna(why_negative) and str(why_negative).strip():
                 message = f"The reason for your negative balance is: {why_negative}. To know your plan type, please reply yes."
             else:
-                message = "You do not have a negative balance. To know your plan type, please reply yes."
+                message = "To know your plan type, please reply yes."
             return jsonify({
                 "fulfillment_response": {
                     "messages": [
