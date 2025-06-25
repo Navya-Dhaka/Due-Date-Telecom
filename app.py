@@ -61,7 +61,7 @@ def webhook():
             return jsonify({
                 "fulfillment_response": {
                     "messages": [
-                        {"text": {"text": [f"Your due date is {due_date}. To check the due amount, please reply yes"]}}
+                        {"text": {"text": [f"Your due date is {due_date}. To check the due amount, please reply yes."]}}
                     ]
                 },
                 "session_info": {
@@ -73,7 +73,7 @@ def webhook():
     
         elif tag == 'get_amount_due':
             amount_due = user_data['Amount'].values[0]
-            message = f"The amount you have to pay is {amount_due}."
+            message = f"The amount you have to pay is {amount_due}. "
     
             if amount_due < 0:
                 message += "To know why your balance is negative, please reply yes."
@@ -96,9 +96,9 @@ def webhook():
             amount_due = user_data['Amount'].values[0]
             why_negative = user_data['Why Negative'].values[0]
             if amount_due < 0 and pd.notna(why_negative) and str(why_negative).strip():
-                message = f"The reason for your negative balance is: {why_negative}."
+                message = f"The reason for your negative balance is: {why_negative}. To know your plan type, please reply yes."
             else:
-                message = "You do not have a negative balance."
+                message = "You do not have a negative balance. To know your plan type, please reply yes."
             return jsonify({
                 "fulfillment_response": {
                     "messages": [
@@ -117,7 +117,7 @@ def webhook():
             return jsonify({
                 "fulfillment_response": {
                     "messages": [
-                        {"text": {"text": [f"Your plan type is {plan_type}."]}}
+                        {"text": {"text": [f"Your plan type is {plan_type}. Do you have any further questions?"]}}
                     ]
                 },
                 "session_info": {
