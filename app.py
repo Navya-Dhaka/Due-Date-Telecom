@@ -59,7 +59,8 @@ def webhook():
             })
     
         elif tag == 'get_due_date':
-            due_date = user_data['Due Date'].values[0]
+            due_date_str = user_data['Due Date'].values[0]
+            due_date = datetime.strptime(due_date_str, "%m-%d-%Y").date()
             today = datetime.today().date()
             if due_date < today:
                 message = "Your due date has passed."
