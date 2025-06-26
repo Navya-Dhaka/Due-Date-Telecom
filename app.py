@@ -88,8 +88,8 @@ def webhook():
             amount_due = user_data['Amount'].values[0]
             message = f"The amount you have to pay is {amount_due}. "
     
-            if amount_due < 0:
-                message += "To know why your balance is negative, please reply yes."
+            # if amount_due < 0:
+            #     message += "To know why your balance is negative, please reply yes."
             # else:
             #     message += "Please reply yes to continue."
         
