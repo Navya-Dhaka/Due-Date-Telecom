@@ -62,8 +62,11 @@ def webhook():
             due_date_str = user_data['Due Date'].values[0]
             due_date = datetime.strptime(due_date_str, "%m-%d-%Y").date()
             today = datetime.today().date()
+            amount_due = user_data['Amount'].values[0]
             if due_date < today:
-                message = "Your due date has passed. Along with your due amount, you have to pay extra 10 dollars as late fees."
+                message = "Your due date has passed." 
+                if amount_due > 0:
+                    message += " Along with your due amount, you have to pay extra 10 dollars as late fees."
             elif due_date == today:
                 message = "Your due date is today."
             else:
