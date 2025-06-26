@@ -64,15 +64,15 @@ def webhook():
             today = datetime.today().date()
             amount_due = user_data['Amount'].values[0]
             if due_date < today:
-                message = "Your due date has passed." 
+                message = "Your due date has passed. It was " 
                 if amount_due > 0:
                     message += " Along with your due amount, you have to pay extra 10 dollars as late fees."
             elif due_date == today:
-                message = "Your due date is today."
+                message = "Your due date is today. It is "
             else:
-                message = "Your due date is in the future."
+                message = "Your due date is in the future. It is "
 
-            message += f" It is {due_date}. "
+            message += f"{due_date}. "
 
             return jsonify({
                 "fulfillment_response": {
