@@ -115,8 +115,8 @@ def webhook():
             why_negative = user_data['Why Negative'].values[0]
             if amount_due < 0 and pd.notna(why_negative) and str(why_negative).strip():
                 message = f"The reason for your negative balance is: {why_negative}. "
-            # else:
-            #     message = "To know your plan type, please reply yes."
+            else:
+                message = "You do not have a negative balance."
             return jsonify({
                 "fulfillment_response": {
                     "messages": [
