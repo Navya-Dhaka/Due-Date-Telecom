@@ -7,9 +7,9 @@ from datetime import datetime
 app = Flask(__name__)
 logging.basicConfig(level=logging.DEBUG)
 
-@app.route("/", methods=["GET", "HEAD"])
-def root():
-    return "", 204
+# @app.route("/", methods=["GET", "HEAD"])
+# def root():
+#     return "", 204
 
 # Load the CSV file
 df = pd.read_csv('data.csv')
